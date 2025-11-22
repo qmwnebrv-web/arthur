@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arthur</title>
+    <!-- Link to shared stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="pics/arthur logo.png">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Arthur Loodus</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Avaleht</a></li>
+                <li><a href="about.html">Minust</a></li>
+                <li><a href="projects.html">Pildid</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+            </ul>
+            <div class="nav-toggles">
+                <button class="toggle-btn night-toggle" id="nightToggle" title="Dark Mode">
+                    <span class="icon-sun">☀️</span>
+                    <span class="icon-moon">🌙</span>
+                </button>
+                <button class="toggle-btn lang-toggle" id="langToggle" title="Language">
+                    <span>EST</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        // Navbar shrink on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Night mode toggle
+        const nightToggle = document.getElementById('nightToggle');
+        const body = document.body;
+        
+        // Check for saved preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+        }
+        
+        nightToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+        });
+
+        // Language toggle
+        const langToggle = document.getElementById('langToggle');
+        langToggle.addEventListener('click', function() {
+            window.location.href = 'index-en.html';
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <!-- Profile Image -->
+            <div class="profile-image">
+                <img src="pics/arthurpfp.jpg" alt="Alex Rivera">
+            </div>
+            
+            <!-- Hero Text -->
+            <h1 class="hero-title">Tere! Minu nimi on Arthur.</h1>
+            <p class="hero-subtitle">Elurõõmus jõusaalihunt ja mänguentusiast</p>
+            <p class="hero-description">
+                Naudin elu täiega – jõusaal, sõbrad ja head mängud hoiavad tuju üleval. Usun, et hea huumor ja õiged inimesed teevad iga päeva paremaks.
+            </p>
+            
+            <!-- Call to Action Buttons -->
+            <div class="hero-buttons">
+                <a href="projects.html" class="btn btn-primary">Vaata Mu Pilte</a>
+                <a href="contact.html" class="btn btn-secondary">Võta Ühendust</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Links Section -->
+    <section class="quick-links">
+        <div class="container">
+            <div class="link-card">
+                <div class="icon">ℹ</div>
+                <h3>Rohkem Minust</h3>
+                <p>Tutvu minuga lähemalt – kes ma olen, mis mind huvitab ja mis mind edasi viib.</p>
+                <a href="about.html" class="link-arrow">Loe Edasi →</a>
+            </div>
+            
+            <div class="link-card">
+                <div class="icon">📷</div>
+                <h3>Pildid</h3>
+                <p>Siin on mõned pildid, mis näitavad, millega ma oma aega veedan.</p>
+                <a href="projects.html" class="link-arrow">Vaata Pilte →</a>
+            </div>
+            
+            <div class="link-card">
+                <div class="icon">📧</div>
+                <h3>Kontakt</h3>
+                <p>Võta julgelt ühendust – arutame, kuidas saaksime koos midagi huvitavat teha.</p>
+                <a href="contact.html" class="link-arrow">Kirjuta Mulle →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Arthur Loodus. All rights reserved.</p>
+    </footer>
+    <script>
+    // Track page visit
+    fetch('/api/track-visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: 'avaleht' })
+    });
+</script>
+</body>
+</html>

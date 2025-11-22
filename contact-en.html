@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Arthur</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="pics/arthur logo.png">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index-en.html" class="logo">Arthur Loodus</a>
+            <ul class="nav-links">
+                <li><a href="index-en.html">Home</a></li>
+                <li><a href="about-en.html">About</a></li>
+                <li><a href="projects-en.html">Photos</a></li>
+                <li><a href="contact-en.html" class="active">Contact</a></li>
+            </ul>
+            <div class="nav-toggles">
+                <button class="toggle-btn night-toggle" id="nightToggle" title="Dark Mode">
+                    <span class="icon-sun">☀️</span>
+                    <span class="icon-moon">🌙</span>
+                </button>
+                <button class="toggle-btn lang-toggle" id="langToggle" title="Language">
+                    <span>ENG</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        const nightToggle = document.getElementById('nightToggle');
+        const body = document.body;
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+        }
+        nightToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+        });
+
+        const langToggle = document.getElementById('langToggle');
+        langToggle.addEventListener('click', function() {
+            window.location.href = 'contact.html';
+        });
+    </script>
+
+    <section class="page-content fade-in">
+        <div class="container-narrow">
+            <h1 class="page-title">Get In Touch</h1>
+            <p class="page-subtitle">
+                If you have an idea, question, or just want to get to know me – reach out, I'd love to hear from you!
+            </p>
+
+            <div class="contact-grid">
+                <div class="contact-form-container">
+                    <h2>Send Me a Message</h2>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="Message or question">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="6" placeholder="Write to me about what you want to talk about or share/offer." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <p id="formMessage" style="margin-top: 1rem; text-align: center; font-weight: 600;"></p>
+                    </form>
+
+                    <script>
+                        fetch('/api/track-visit', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ page: 'contact-en' })
+                        });
+
+                        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+                            e.preventDefault();
+                            const formData = {
+                                name: document.getElementById('name').value,
+                                email: document.getElementById('email').value,
+                                subject: document.getElementById('subject').value,
+                                message: document.getElementById('message').value
+                            };
+                            const messageEl = document.getElementById('formMessage');
+                            try {
+                                const response = await fetch('/api/contact', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(formData)
+                                });
+                                const data = await response.json();
+                                if (response.ok) {
+                                    messageEl.style.color = '#27ae60';
+                                    messageEl.textContent = '✓ Message sent successfully!';
+                                    document.getElementById('contactForm').reset();
+                                } else {
+                                    messageEl.style.color = '#e74c3c';
+                                    messageEl.textContent = '✗ Error: ' + data.error;
+                                }
+                            } catch (error) {
+                                messageEl.style.color = '#e74c3c';
+                                messageEl.textContent = '✗ Server connection error. Please try again later.';
+                            }
+                        });
+                    </script>
+                </div>
+
+                <div class="contact-info">
+                    <h2>Other Ways to Reach Me</h2>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <h3>Email</h3>
+                                <p>arthur.loodus@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div>
+                                <h3>Phone</h3>
+                                <p>+372 5389 3493</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <h3>Location</h3>
+                                <p>Tallinn, Estonia</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <h3>Connect With Me</h3>
+                        <div class="social-buttons">
+                            <a href="https://www.instagram.com/arthur_loodus/" class="social-btn instagram" target="_blank">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                                Instagram
+                            </a>
+                            <a href="https://www.tiktok.com/@looduz" class="social-btn tiktok" target="_blank">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                                </svg>
+                                TikTok
+                            </a>
+                            <a href="https://www.snapchat.com/add/arthur_loodus?share_id=IBeov_nHj-o&locale=en-US" class="social-btn snapchat" target="_blank">
+                                <svg width="20" height="20" viewBox="0 0 512 512" fill="currentColor">
+                                    <path d="M496 347.21a190.31 190.31 0 0 1-32.79-5.31c-27.28-6.63-54.84-24.26-68.12-52.43-6.9-14.63-2.64-18.59 11.86-24 14.18-5.27 29.8-7.72 36.86-23 5.89-12.76 1.13-27.76-10.41-35.49-15.71-10.53-30.35-.21-46.62 2.07 3.73-46.66 8.66-88.57-22.67-127.73C338.14 48.86 297.34 32 256.29 32s-81.86 16.86-107.81 49.33c-31.38 39.26-26.4 81.18-22.67 127.92-16.32-2.25-30.81-12.79-46.63-2.18-11.22 7.51-16.14 22.16-10.65 34.8 6.52 15 22.11 18.08 36.48 23.38 15 5.53 18.38 9.17 11.85 23.56-13.29 29.31-40.85 47.08-68.57 53.72A187.5 187.5 0 0 1 16 347.21c-9.77 1.57-16 7.32-16 16.37 0 34.95 80.63 57.8 97.49 62.53 3.18 15.06 7.07 39.47 23.58 39.47 12.38 0 35.18-8.78 79-8.78 27.87 0 45.55 3.58 62.53 7.09 8.58 1.76 17 3.49 26.46 4.86 5.09.74 10.14 1.1 15.14 1.1 25.57 0 49.52-10.86 73.67-10.86 44.18 0 67 8.78 79.37 8.78 17.06 0 20.74-25.21 23.85-40.29C497.61 422.37 576 399.36 576 364c0-9.13-6.27-14.84-16-16.37a95.68 95.68 0 0 1-64-32.42z"/>
+                                </svg>
+                                Snapchat
+                            </a>
+                            <a href="https://discordapp.com/users/816226003411533846" class="social-btn discord" target="_blank">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                                </svg>
+                                Discord (rickgrimes3608)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Arthur Loodus. All rights reserved.</p>
+        <p class="footer-links">
+            <a href="index-en.html">Home</a> • 
+            <a href="about-en.html">About</a> • 
+            <a href="projects-en.html">Photos</a> • 
+            <a href="contact-en.html">Contact</a>
+        </p>
+    </footer>
+</body>
+</html>

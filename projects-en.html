@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photos - Arthur</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="pics/arthur logo.png">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index-en.html" class="logo">Arthur Loodus</a>
+            <ul class="nav-links">
+                <li><a href="index-en.html">Home</a></li>
+                <li><a href="about-en.html">About</a></li>
+                <li><a href="projects-en.html" class="active">Photos</a></li>
+                <li><a href="contact-en.html">Contact</a></li>
+            </ul>
+            <div class="nav-toggles">
+                <button class="toggle-btn night-toggle" id="nightToggle" title="Dark Mode">
+                    <span class="icon-sun">☀️</span>
+                    <span class="icon-moon">🌙</span>
+                </button>
+                <button class="toggle-btn lang-toggle" id="langToggle" title="Language">
+                    <span>ENG</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        const nightToggle = document.getElementById('nightToggle');
+        const body = document.body;
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+        }
+        nightToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+        });
+
+        const langToggle = document.getElementById('langToggle');
+        langToggle.addEventListener('click', function() {
+            window.location.href = 'projects.html';
+        });
+    </script>
+
+    <section class="page-content fade-in">
+        <div class="container">
+            <h1 class="page-title">Moments of Me</h1>
+            <p class="page-subtitle">
+                A small selection of photos and memories showing what I do and how life goes.
+            </p>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/jouks.png" alt="Gym">
+                    </div>
+                    <div class="project-content">
+                        <h3>At the Gym</h3>
+                        <p>
+                            The gym is my second home – it's where I solve problems, improve my fitness, and recharge my batteries for the day. Every workout is an opportunity to challenge myself and get better. Sometimes I also spend time on my phone there.                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/arthur1.png" alt="Friends">
+                    </div>
+                    <div class="project-content">
+                        <h3>Time with Friends</h3>
+                        <p>
+                            The best moments are when I can be with my friends. Whether it's exercising together, playing games, or just chatting - these moments make life worthwhile.                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/arthurgamer.png" alt="Gaming">
+                    </div>
+                    <div class="project-content">
+                        <h3>Gaming</h3>
+                        <p>
+                            Computer games are my way of relaxing and seeking challenges. Strategy games provide tension and interest. I'm often on the Nft Animation server and play CS2 with my friends.                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/aaa.png" alt="Training">
+                    </div>
+                    <div class="project-content">
+                        <h3>Training</h3>
+                        <p>
+                            Training is not just an exercise – it’s a lifestyle. Every day in the boxing gym makes me stronger both physically and mentally. Discipline and consistency are the keys to success (although I often forget this).                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/arthurkool.jpg" alt="School">
+                    </div>
+                    <div class="project-content">
+                        <h3>School Life</h3>
+                        <p>
+                            If I'm not at the gym or with my friends, I'm probably at school. 10th grade brings a lot of studying (thanks Tanel for helping me), but also fun and memorable moments with my classmates. The best moments of my life have come with my school friends.                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/trissujaarthur.jpg" alt="Challenges">
+                    </div>
+                    <div class="project-content">
+                        <h3>New Challenges</h3>
+                        <p>
+                            I like to try new things and take on challenges. Whether it's a new workout, game, or something else - every new experience teaches something valuable and makes life more interesting. <br>I'm always up for a challenge!                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Arthur Loodus. All rights reserved.</p>
+    </footer>
+    <script>
+    fetch('/api/track-visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: 'photos' })
+    });
+</script>
+</body>
+</html>

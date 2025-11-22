@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pildid - Arthur</title>
+    <!-- Link to shared stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="pics/arthur logo.png">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Arthur Loodus</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Avaleht</a></li>
+                <li><a href="about.html">Minust</a></li>
+                <li><a href="projects.html" class="active">Pildid</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+            </ul>
+            <div class="nav-toggles">
+                <button class="toggle-btn night-toggle" id="nightToggle" title="Dark Mode">
+                    <span class="icon-sun">☀️</span>
+                    <span class="icon-moon">🌙</span>
+                </button>
+                <button class="toggle-btn lang-toggle" id="langToggle" title="Language">
+                    <span>EST</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        // Navbar shrink on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Night mode toggle
+        const nightToggle = document.getElementById('nightToggle');
+        const body = document.body;
+        
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+        }
+        
+        nightToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+        });
+
+        // Language toggle
+        const langToggle = document.getElementById('langToggle');
+        langToggle.addEventListener('click', function() {
+            window.location.href = 'projects-en.html';
+        });
+    </script>
+
+    <!-- Projects Content -->
+    <section class="page-content fade-in">
+        <div class="container">
+            <h1 class="page-title">Hetked minust</h1>
+            <p class="page-subtitle">
+                Väike valik pilte ja mälestusi, mis näitavad, millega ma tegelen ja kuidas elu kulgeb.
+            </p>
+
+            <!-- Projects Grid -->
+            <div class="projects-grid">
+                <!-- Project Card 1 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/jouks.png" alt="Jõusaal">
+                    </div>
+                    <div class="project-content">
+                        <h3>Jõusaalis</h3>
+                        <p>
+                            Jõusaal on minu teine kodu – siin lahendan muretuid, parandан vormi ja laen energiat päeva jaoks. Iga trenn on võimalus end ületada ja paremaks saada. Mõnikord veedan seal ka telefonis aega.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/arthur1.png" alt="Sõbrad">
+                    </div>
+                    <div class="project-content">
+                        <h3>Sõpradega aeg</h3>
+                        <p>
+                            Parimad hetked on need, kui saan olla koos oma sõpradega. Olgu see siis ühine trenni tegemine, mängude mängimine või lihtsalt jutuvada – need hetked teevad elu väärtuslikuks.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/arthurgamer.png" alt="Mängud">
+                    </div>
+                    <div class="project-content">
+                        <h3>Gaming</h3>
+                        <p>
+                            Arvutimängud on minu viis lõõgastuda ja väljakutseid otsida. Strateegilised mängud pakuvad pinget ja huvi. Tihti olen Nft Animation serveris ja mängin seal koos sõpradega CS2-te.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Project Card 4 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/aaa.png" alt="Trenn">
+                    </div>
+                    <div class="project-content">
+                        <h3>Treeningud</h3>
+                        <p>
+                            Treenimine ei ole lihtsalt harjutus – see on elustiil. Iga päev boksisaalis teeb mind tugevamaks nii füüsiliselt kui vaimselt. Distsipliin ja püsivus on võtmed edu saavutamiseks (kuigi unustan selle tihti ära).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Project Card 5 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/arthurkool.jpg" alt="Kooli hetked">
+                    </div>
+                    <div class="project-content">
+                        <h3>Koolielu</h3>
+                        <p>
+                            Kui ma pole jõusaalis või sõpradega, siis olen ilmselt koolis. 10. klass toob kaasa palju õppimist (tänan Tanelit aitamise eest), aga ka nalja ja meeldejäävaid hetki klassikaaslastega. Minu elu parimad hetked on tulnud koos minu koolisõradega.
+
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Project Card 6 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="pics/trissujaarthur.jpg" alt="Väljakutsed">
+                    </div>
+                    <div class="project-content">
+                        <h3>Uued väljakutsed</h3>
+                        <p>
+                            Mulle meeldib proovida uusi asju ja võtta vastu väljakutseid. Olgu see uus trenn, mäng või midagi muud – iga uus kogemus õpetab midagi väärtuslikku ja teeb elust huvitavama. <br>Olen alati valmis challengiks!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Arthur Loodus. All rights reserved.</p>
+    </footer>
+    <script>
+    fetch('/api/track-visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: 'pildid' })
+    });
+</script>
+</body>
+</html>

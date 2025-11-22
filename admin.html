@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Arthur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="pics/arthur logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Login Screen */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-box h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header h1 {
+            color: #667eea;
+        }
+
+        .btn-logout {
+            padding: 0.8rem 2rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Messages Section */
+        .messages-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            color: #333;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .message-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .message-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .message-card.important {
+            border-color: #f39c12;
+            background: #fff9e6;
+        }
+
+        .message-card.unread {
+            background: #f0f0ff;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .message-info {
+            flex: 1;
+        }
+
+        .message-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .message-email {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .message-meta {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .message-subject {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-body {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-important {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-read {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+        /* Visitors Section */
+        .visitors-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .visitor-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .visitor-table th,
+        .visitor-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .visitor-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .visitor-table tr:hover {
+            background: #f8f9fa;
+        }
+        .visitor-row {
+            cursor: pointer;
+        }
+
+        .visitor-row:hover {
+            background: #e8f4ff !important;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                flex-wrap: wrap;
+            }
+
+            .message-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <h1>🔒 Admin Panel</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Kasutajanimi</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Parool</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn-login">Logi sisse</button>
+                <p class="error-message" id="errorMessage"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="dashboard-header">
+            <h1>📊 Admin Dashboard</h1>
+            <button class="btn-logout" onclick="logout()">Logi välja</button>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-grid" id="statsGrid">
+            <!-- Stats will be loaded here -->
+        </div>
+
+        <!-- Messages Section -->
+        <div class="messages-section">
+            <div class="section-header">
+                <h2>📧 Sõnumid</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterMessages('all')">Kõik</button>
+                    <button class="filter-btn" onclick="filterMessages('unread')">Lugemata</button>
+                    <button class="filter-btn" onclick="filterMessages('important')">Olulised</button>
+                </div>
+            </div>
+            <div id="messagesList">
+                <!-- Messages will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Visitors Section -->
+        <div class="visitors-section">
+    <div class="section-header">
+        <h2>👥 Viimased külastajad</h2>
+        <button class="filter-btn" onclick="clearVisitors()" style="background: #e74c3c; color: white; border-color: #e74c3c;">🗑️ Kustuta kõik</button>
+    </div>
+            <table class="visitor-table">
+                <thead>
+                    <tr>
+                        <th>IP Aadress</th>
+                        <th>Leht</th>
+                        <th>User Agent</th>
+                        <th>Aeg</th>
+                    </tr>
+                </thead>
+                <tbody id="visitorsTable">
+                    <!-- Visitors will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Check if already logged in
+        checkAuth();
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/admin/check');
+                const data = await response.json();
+                if (data.isAuthenticated) {
+                    showDashboard();
+                }
+            } catch (error) {
+                console.error('Auth check failed:', error);
+            }
+        }
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showDashboard();
+                } else {
+                    document.getElementById('errorMessage').textContent = data.error;
+                    document.getElementById('errorMessage').style.display = 'block';
+                }
+            } catch (error) {
+                document.getElementById('errorMessage').textContent = 'Viga serveriga ühenduses';
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        });
+
+        // Logout
+        async function logout() {
+            await fetch('/api/admin/logout', { method: 'POST' });
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        // Show Dashboard
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadStats();
+            loadMessages();
+            loadVisitors();
+            // Refresh stats every 30 seconds
+            setInterval(loadStats, 30000);
+        }
+
+        // Load Statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/admin/stats');
+                const stats = await response.json();
+
+                document.getElementById('statsGrid').innerHTML = `
+                    <div class="stat-card">
+                        <div class="number">${stats.currentOnline}</div>
+                        <div class="label">Praegu kohal</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">${stats.todayVisitors}</div>
+                        <div class="label">Tänased külastajad</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">${stats.uniqueVisitors}</div>
+                        <div class="label">Unikaalsed külastajad</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">${stats.totalVisitors}</div>
+                        <div class="label">Kokku külastusi</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">${stats.unreadMessages}</div>
+                        <div class="label">Lugemata sõnumid</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">${stats.totalMessages}</div>
+                        <div class="label">Kokku sõnumeid</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        // Load Messages
+        let currentFilter = 'all';
+        async function loadMessages(filter = 'all') {
+            currentFilter = filter;
+            try {
+                const url = filter === 'all' ? '/api/admin/messages' : `/api/admin/messages?filter=${filter}`;
+                const response = await fetch(url);
+                const messages = await response.json();
+
+                const messagesList = document.getElementById('messagesList');
+                
+                if (messages.length === 0) {
+                    messagesList.innerHTML = '<p style="text-align: center; color: #999;">Sõnumeid ei ole</p>';
+                    return;
+                }
+
+                messagesList.innerHTML = messages.map(msg => `
+                    <div class="message-card ${msg.is_important ? 'important' : ''} ${!msg.is_read ? 'unread' : ''}">
+                        <div class="message-header">
+                            <div class="message-info">
+                                <div class="message-name">${msg.name}</div>
+                                <div class="message-email">${msg.email}</div>
+                            </div>
+                            <div class="message-meta">
+                                <div>IP: ${msg.ip_address}</div>
+                                <div>${formatEstonianTime(msg.timestamp)}</div>
+                            </div>
+                        </div>
+                        ${msg.subject ? `<div class="message-subject">${msg.subject}</div>` : ''}
+                        <div class="message-body">${msg.message}</div>
+                        <div class="message-actions">
+                            <button class="action-btn btn-important" onclick="toggleImportant(${msg.id}, ${!msg.is_important})">
+                                ${msg.is_important ? '⭐ Eemalda tähtis' : '⭐ Märgi tähtsaks'}
+                            </button>
+                            <button class="action-btn btn-read" onclick="toggleRead(${msg.id}, ${!msg.is_read})">
+                                ${msg.is_read ? '📧 Märgi lugemataks' : '✅ Märgi loetuks'}
+                            </button>
+                            <button class="action-btn btn-delete" onclick="deleteMessage(${msg.id})">
+                                🗑️ Kustuta
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load messages:', error);
+            }
+        }
+
+        // Filter Messages
+        function filterMessages(filter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadMessages(filter);
+        }
+
+        // Toggle Important
+        async function toggleImportant(id, isImportant) {
+            await fetch(`/api/admin/messages/${id}/important`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ isImportant })
+            });
+            loadMessages(currentFilter);
+        }
+
+        // Toggle Read
+        async function toggleRead(id, isRead) {
+            await fetch(`/api/admin/messages/${id}/read`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ isRead })
+            });
+            loadMessages(currentFilter);
+            loadStats();
+        }
+
+        // Delete Message
+        async function deleteMessage(id) {
+            if (confirm('Kas oled kindel, et soovid selle sõnumi kustutada?')) {
+                await fetch(`/api/admin/messages/${id}`, { method: 'DELETE' });
+                loadMessages(currentFilter);
+                loadStats();
+            }
+        }
+
+        // Load Visitors
+        async function loadVisitors() {
+            try {
+                const response = await fetch('/api/admin/visitors');
+                const visitors = await response.json();
+
+                visitorsTable.innerHTML = visitors.map(v => `
+    <tr class="visitor-row" onclick="showVisitorDetails(${JSON.stringify(v).replace(/"/g, '&quot;')})">
+        <td>${v.ip_address}</td>
+        <td>${v.page_visited}</td>
+        <td>${v.user_agent.substring(0, 50)}...</td>
+        <td>${formatEstonianTime(v.timestamp)}</td>
+    </tr>
+`).join('');
+            } catch (error) {
+                console.error('Failed to load visitors:', error);
+            }
+        }
+
+// Eesti aja formaat
+function formatEstonianTime(timestamp) {
+    // Lisa 2 tundi kuna server salvestab UTC ajas
+    const date = new Date(timestamp);
+    date.setHours(date.getHours() + 2);
+    
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+}
+
+// Külastaja detailid popup
+function showVisitorDetails(visitor) {
+    // Parse user agent infot
+    const ua = visitor.user_agent;
+    let browser = 'Tundmatu';
+    let os = 'Tundmatu';
+    let device = 'Desktop';
+
+    // Brauser
+    if (ua.includes('Firefox')) browser = 'Firefox';
+    else if (ua.includes('Edg')) browser = 'Microsoft Edge';
+    else if (ua.includes('Chrome')) browser = 'Google Chrome';
+    else if (ua.includes('Safari')) browser = 'Safari';
+    else if (ua.includes('Opera')) browser = 'Opera';
+
+    // Operatsioonisüsteem
+    if (ua.includes('Windows NT 10')) os = 'Windows 10/11';
+    else if (ua.includes('Windows')) os = 'Windows';
+    else if (ua.includes('Mac OS')) os = 'macOS';
+    else if (ua.includes('Linux')) os = 'Linux';
+    else if (ua.includes('Android')) os = 'Android';
+    else if (ua.includes('iPhone') || ua.includes('iPad')) os = 'iOS';
+
+    // Seade
+    if (ua.includes('Mobile') || ua.includes('Android') || ua.includes('iPhone')) device = 'Mobiil';
+    else if (ua.includes('Tablet') || ua.includes('iPad')) device = 'Tahvel';
+
+    const details = `
+╔══════════════════════════════════════════╗
+║           KÜLASTAJA DETAILID             ║
+╠══════════════════════════════════════════╣
+║ 🌐 IP Aadress:  ${visitor.ip_address.padEnd(23)}║
+║ 📄 Külastatud leht:  ${visitor.page_visited.padEnd(18)}║
+║ 🕐 Aeg:  ${formatEstonianTime(visitor.timestamp).padEnd(29)}║
+╠══════════════════════════════════════════╣
+║ 💻 Seade:  ${device.padEnd(28)}║
+║ 🖥️ OS:  ${os.padEnd(31)}║
+║ 🌍 Brauser:  ${browser.padEnd(26)}║
+╠══════════════════════════════════════════╣
+║ 📝 Täis User Agent:                      ║
+╚══════════════════════════════════════════╝
+
+${visitor.user_agent}
+    `;
+
+    alert(details);
+}
+
+// Clear all visitors
+async function clearVisitors() {
+    if (confirm('Kas oled kindel, et soovid KÕIK külastajad kustutada?')) {
+        try {
+            const response = await fetch('/api/visitors/clear', { method: 'DELETE' });
+            const data = await response.json();
+            if (data.success) {
+                alert('Kõik külastajad kustutatud!');
+                loadVisitors();
+                loadStats();
+            }
+        } catch (error) {
+            alert('Viga kustutamisel');
+        }
+    }
+}
+
+    </script>
+</body>
+</html>
